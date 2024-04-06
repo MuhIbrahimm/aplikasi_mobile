@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
 
-const TextStyle baseTextStyle = TextStyle(
-  fontFamily: 'Poppins', // Replace with your desired font family
-);
+class appColors {
+  static const mainColor = Color(0xff1976D2);
+  static const bodyText = Color(0xff121212);
+  static const secondaryColor = Color(0xff787878);
+}
 
-// Define heading styles
-const TextStyle h1Style = TextStyle(
-  fontSize: 32.0,
-  fontWeight: FontWeight.bold,
-  color: Colors.lightBlue,
-);
+class TextStyles {
+  static TextStyle h1 = const TextStyle(
+    fontFamily: 'NotoSerif',
+    fontWeight: FontWeight.w700,
+    fontSize: 28.0,
+    color: appColors.mainColor,
+  );
 
-const TextStyle h2Style = TextStyle(
-  fontSize: 24.0,
-  fontWeight: FontWeight.w500,
-  color: Colors.lightBlue,
-);
+  static TextStyle h2 = const TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 24.0,
+    color: appColors.mainColor,
+  );
 
-// Define text style
-const TextStyle bodyTextStyle = TextStyle(
-  fontSize: 16.0,
-  color: Colors.lightBlue,
-);
+  static TextStyle body = const TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.normal,
+    fontSize: 20.0,
+    color: appColors.bodyText,
+  );
+
+    static TextStyle secondaryText = const TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 16.0,
+    color: appColors.secondaryColor,
+  );
+}
