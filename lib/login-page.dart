@@ -63,8 +63,9 @@ class loginPage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(10),                
                 ),
-                hintText: 'Email',
-                hintStyle: TextStyles.secondaryText,
+                labelText: 'Email',
+                labelStyle: TextStyles.secondaryText,
+                floatingLabelBehavior: FloatingLabelBehavior.auto
               ),
             ),
       
@@ -96,8 +97,9 @@ class loginPage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(10),                
                 ),
-                hintText: 'Password',
-                hintStyle: TextStyles.secondaryText,
+                labelText: 'Password',
+                labelStyle: TextStyles.secondaryText,
+                floatingLabelBehavior: FloatingLabelBehavior.auto
               ),
             ),
 
@@ -143,7 +145,7 @@ class loginPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Text(
-              'Register Now',
+              'Create account Now',
               style: TextStyles.secondaryText.copyWith(color: appColors.mainColor),
               textAlign: TextAlign.center,
             ),
