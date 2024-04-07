@@ -24,7 +24,7 @@ class TextStyles {
   static TextStyle body = const TextStyle(
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.normal,
-    fontSize: 20.0,
+    fontSize: 16.0,
     color: appColors.bodyText,
   );
 
