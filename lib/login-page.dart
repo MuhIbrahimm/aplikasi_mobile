@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 
-
-
 class loginPage extends StatelessWidget {
   const loginPage({super.key});
 
@@ -21,7 +19,6 @@ class loginPage extends StatelessWidget {
               const Image(
               image: AssetImage('assets/images/login.png'),
               fit: BoxFit.fitWidth,
-              width: double.infinity,
             ),
         
             const SizedBox(
@@ -32,6 +29,17 @@ class loginPage extends StatelessWidget {
                 child: Text(
                   "We're happy to see you again, friend!",
                   style: TextStyles.h1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+
+              Center(
+                child: Text(
+                  "You know you need to login first, right?",
+                  style: TextStyles.secondaryText,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -74,7 +82,10 @@ class loginPage extends StatelessWidget {
                 obscureText: true,
         
                 decoration: InputDecoration(
-                  suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.visibility)),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(onPressed: () {}, icon: const Icon(Icons.visibility)),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       width: 1.0,
@@ -118,10 +129,10 @@ class loginPage extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  'LOGIN',
-                  style: TextStyles.h1.copyWith(color: Colors.white),
+                  'Login',
+                  style: TextStyles.h2.copyWith(color: Colors.white),
                 ),
               ),
             ),
@@ -131,7 +142,7 @@ class loginPage extends StatelessWidget {
             ),
 
             Text(
-              'Don\'t have account?',
+              'Don\'t have account yet?',
               style: TextStyles.secondaryText,
               textAlign: TextAlign.center,
             ),

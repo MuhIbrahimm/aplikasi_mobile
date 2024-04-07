@@ -8,30 +8,30 @@ class appColors {
 
 class TextStyles {
   static TextStyle h1 = const TextStyle(
-    fontFamily: 'NotoSerif',
+    fontFamily: 'Montserrat',
     fontWeight: FontWeight.w700,
     fontSize: 28.0,
     color: appColors.mainColor,
   );
 
   static TextStyle h2 = const TextStyle(
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
     fontWeight: FontWeight.w500,
     fontSize: 24.0,
     color: appColors.mainColor,
   );
 
   static TextStyle body = const TextStyle(
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
     fontWeight: FontWeight.normal,
     fontSize: 20.0,
     color: appColors.bodyText,
   );
 
     static TextStyle secondaryText = const TextStyle(
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
     fontWeight: FontWeight.w400,
-    fontSize: 16.0,
+    fontSize: 14.0,
     color: appColors.secondaryColor,
   );
 }
