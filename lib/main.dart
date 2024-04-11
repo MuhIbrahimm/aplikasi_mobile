@@ -1,3 +1,4 @@
+import 'package:aplikasi_mobile/home-page.dart';
 import 'package:aplikasi_mobile/login-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       
-      home: registerPage()
+      home: homePage()
     );
   }
 }
