@@ -1,3 +1,4 @@
+import 'package:aplikasi_mobile/style.dart';
 import 'package:flutter/material.dart';
 
 class homePage extends StatefulWidget {
@@ -19,17 +20,21 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Homepage'),
-        actions: <Widget>[
+        shadowColor: appColors.bodyText,
+        backgroundColor: appColors.mainColor,
+        leading: Image.asset('assets/images/logo-white.png'),
+        actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {},
+            color: Colors.white,
           ),
         ],
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        selectedItemColor: appColors.mainColor,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -53,8 +58,8 @@ class _homePageState extends State<homePage> {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Halaman Home'),
+    return Scaffold(
+      body: Text('Halaman Home'),
     );
   }
 }
@@ -62,8 +67,8 @@ class HomePage extends StatelessWidget {
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Halaman Profile'),
+    return Scaffold(
+      body: Text('Halaman Profile'),
     );
   }
 }
