@@ -147,15 +147,11 @@ class HomePage extends StatelessWidget {
                   children: [
                     for (int i = 0; i < _discussions.length; i++)
                       InkWell(
-                        onTap: () {
-                          // Handle tap on discussion (optional)
-                          print('Discussion ${i + 1} tapped');
-                        },
                         child: Container(
                           width: 200,
                           height: 200,
                           decoration: BoxDecoration(
-                            color: appColors.mainColor, // Adjust background color
+                            color: appColors.mainColor,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Align(
@@ -166,10 +162,115 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   _discussions[
-                                      i], // Use actual discussion titles from _discussions list
-                                  maxLines: 2, // Limit to 2 lines
-                                  overflow: TextOverflow
-                                      .ellipsis, // Add ellipsis for overflow
+                                      i],
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.body.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 32.0,
+              ),
+
+              Text(
+                'For You',
+                style: TextStyles.h1,
+                textAlign: TextAlign.start,
+              ),
+
+              const SizedBox(
+                height: 16.0
+              ),
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  spacing: 10.0,
+                  runSpacing: 10.0,
+                  children: [
+                    for (int i = 0; i < _discussions.length; i++)
+                      InkWell(
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: appColors.mainColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Align(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _discussions[
+                                      i],
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyles.body.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 32.0,
+              ),
+
+              Text(
+                'Followed',
+                style: TextStyles.h1,
+                textAlign: TextAlign.start,
+              ),
+
+              const SizedBox(
+                height: 16.0
+              ),
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  spacing: 10.0,
+                  runSpacing: 10.0,
+                  children: [
+                    for (int i = 0; i < _discussions.length; i++)
+                      InkWell(
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: appColors.mainColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Align(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _discussions[
+                                      i],
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyles.body.copyWith(
                                     color: Colors.white,
                                   ),

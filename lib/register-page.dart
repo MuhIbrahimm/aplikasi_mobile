@@ -1,3 +1,5 @@
+import 'package:aplikasi_mobile/home-page.dart';
+import 'package:aplikasi_mobile/login-page.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 
@@ -172,7 +174,12 @@ class  registerPage extends StatelessWidget {
             ),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => homePage()),
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(appColors.mainColor),
                 shape: MaterialStateProperty.all(
@@ -199,10 +206,18 @@ class  registerPage extends StatelessWidget {
               style: TextStyles.secondaryText,
               textAlign: TextAlign.center,
             ),
-            Text(
-              'Login',
-              style: TextStyles.secondaryText.copyWith(color: appColors.mainColor),
-              textAlign: TextAlign.center,
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => loginPage()),
+                );
+              },
+              child: Text(
+                'Login to Your Account',
+                style: TextStyles.secondaryText.copyWith(color: appColors.mainColor),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
           ),
