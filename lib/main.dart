@@ -1,9 +1,9 @@
-import 'package:aplikasi_mobile/home-page.dart';
 import 'package:aplikasi_mobile/login-page.dart';
-import 'package:aplikasi_mobile/register-page.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
