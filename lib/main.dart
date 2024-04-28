@@ -1,4 +1,4 @@
-import 'package:aplikasi_mobile/home-page.dart';
+import 'package:aplikasi_mobile/home-screen.dart';
 import 'package:aplikasi_mobile/login-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         '/' : (context) => const loginPage(),
         '/register': (context) => const registerPage(),
         '/login': (context) => const loginPage(),
-        '/home': (context) => const homePage(),
+        '/home': (context) => const HomeScreen(),
       },
       initialRoute: '/',
     );
