@@ -1,5 +1,6 @@
 import 'package:aplikasi_mobile/home-screen.dart';
 import 'package:aplikasi_mobile/login-page.dart';
+import 'package:aplikasi_mobile/profile-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/' : (context) => const loginPage(),
         '/register': (context) => const registerPage(),
-        '/login': (context) => const loginPage(),
         '/home': (context) => const HomeScreen(),
+        '/profile': (context) => const ProfilePage(),
       },
       initialRoute: '/',
     );

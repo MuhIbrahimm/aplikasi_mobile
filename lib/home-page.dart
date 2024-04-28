@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 
 class HomePage extends StatelessWidget {
+  HomePage({super.key});
+  
   final List<String> _categories = [
     'Science',
     'Technology',

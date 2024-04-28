@@ -25,6 +25,17 @@ class loginPage extends StatelessWidget {
       );
       print(_response.data);
       _storage.write('token', _response.data['data']['token']);
+
+      final _userData = await _dio.get(
+        '${_apiUrl}/user',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+        ),
+      );
+      print(_response.data);
+      _storage.write('id', _userData.data['data']['user']['id']);
+      _storage.write('email', _userData.data['data']['user']['email']);
+      _storage.write('name', _userData.data['data']['user']['name']);
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
     }
@@ -187,5 +198,3 @@ class loginPage extends StatelessWidget {
     );
   }
 }
-
-
