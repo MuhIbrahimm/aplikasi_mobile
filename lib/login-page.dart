@@ -1,5 +1,3 @@
-import 'package:aplikasi_mobile/home-page.dart';
-import 'package:aplikasi_mobile/register-page.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 import 'package:dio/dio.dart';
