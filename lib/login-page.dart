@@ -2,6 +2,8 @@ import 'package:aplikasi_mobile/home-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
+import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 
 class loginPage extends StatelessWidget {
   const loginPage({super.key});
@@ -10,6 +12,25 @@ class loginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
+    final _dio = Dio();
+    final _storage = GetStorage();
+    final _apiUrl = 'https://mobileapis.manpits.xyz/api';
+
+    void login() async {
+    try {
+      final _response = await _dio.post(
+        '${_apiUrl}/login',
+        data: {
+          'email': emailController.text,
+          'password': passwordController.text
+        },
+      );
+      print(_response.data);
+      _storage.write('token', _response.data['data']['token']);
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+    }
+  }
 
     return  Scaffold(
       body: SingleChildScrollView(
@@ -120,10 +141,8 @@ class loginPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => homePage()),
-                );
+                login();
+                Navigator.pushNamed(context, '/home');
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(appColors.mainColor),
@@ -154,10 +173,7 @@ class loginPage extends StatelessWidget {
 
             TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => registerPage()),
-                );
+                Navigator.pushNamed(context, '/register');
               },
               child: Text(
                 'Create account Now',
@@ -173,3 +189,5 @@ class loginPage extends StatelessWidget {
     );
   }
 }
+
+

@@ -1,6 +1,8 @@
+import 'package:aplikasi_mobile/home-page.dart';
 import 'package:aplikasi_mobile/login-page.dart';
-import 'package:flutter/material.dart';
+import 'package:aplikasi_mobile/register-page.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter/material.dart';
 
 Future<void> main() async {
   await GetStorage.init();
@@ -12,10 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
-      home: loginPage()
+      routes: {
+        '/' : (context) => const loginPage(),
+        '/register': (context) => const registerPage(),
+        '/login': (context) => const loginPage(),
+        '/home': (context) => const homePage(),
+      },
+      initialRoute: '/',
     );
   }
 }
