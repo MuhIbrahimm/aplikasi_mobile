@@ -1,3 +1,4 @@
+import 'package:aplikasi_mobile/member-page.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 import 'package:aplikasi_mobile/home-page.dart';
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     HomePage(),
     const ProfilePage(),
+    MemberPage(),
   ];
 
   @override
