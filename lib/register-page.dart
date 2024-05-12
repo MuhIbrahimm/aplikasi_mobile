@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
-import 'package:dio/dio.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:aplikasi_mobile/api.dart';
+
 
 class  registerPage extends StatelessWidget {
   const registerPage({super.key});
@@ -12,38 +12,6 @@ class  registerPage extends StatelessWidget {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
-
-    final _dio = Dio();
-    final _storage = GetStorage();
-    final _apiUrl = 'https://mobileapis.manpits.xyz/api';
-
-    void register() async {
-    try {
-      final _register = await _dio.post(
-        '${_apiUrl}/register',
-        data: {
-          'name': nameController.text,
-          'email': emailController.text,
-          'password': passwordController.text
-        },
-      );
-      
-      final _login = await _dio.post(
-        '${_apiUrl}/login',
-        data: {
-          'email': emailController.text,
-          'password': passwordController.text
-        },
-      );
-      
-      _storage.write('token', _login.data['data']['token']);
-      print(_register.data);
-      print(_login.data);
-    }
-    on DioException catch (e) {
-      print('${e.response} - ${e.response?.statusCode}');
-    }
-  }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -207,7 +175,7 @@ class  registerPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                register();
+                register(nameController.text, emailController.text, passwordController.text);
                 Navigator.pushNamed(context, '/home');
               },
               style: ButtonStyle(
@@ -238,7 +206,7 @@ class  registerPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/');
               },
               child: Text(
                 'Login to Your Account',

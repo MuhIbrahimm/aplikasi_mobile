@@ -1,33 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
-import 'package:dio/dio.dart';
+import 'package:aplikasi_mobile/api.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
     @override
-  Widget build(BuildContext context) {
-    final _dio = Dio();
-    final _storage = GetStorage();
-    final _apiUrl = 'https://mobileapis.manpits.xyz/api';
-
-    void logout() async {
-    try {
-      final _response = await _dio.get(
-        '${_apiUrl}/logout',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
-        ),
-      );
-      print(_response.data);
-      _storage.erase();
-      Navigator.pushReplacementNamed(context, '/');
-    } on DioException catch (e) {
-      print('${e.response} - ${e.response?.statusCode}');
-    }
-  }
-
+    Widget build(BuildContext context) {
+      final _storage = GetStorage();
      return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),

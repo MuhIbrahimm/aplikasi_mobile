@@ -52,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.supervisor_account),
+            label:'member'
+          ),
         ],
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
-import 'package:dio/dio.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:aplikasi_mobile/api.dart';
 
 class loginPage extends StatelessWidget {
   const loginPage({super.key});
@@ -10,36 +9,6 @@ class loginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-    final _dio = Dio();
-    final _storage = GetStorage();
-    final _apiUrl = 'https://mobileapis.manpits.xyz/api';
-
-    void login() async {
-    try {
-      final _response = await _dio.post(
-        '${_apiUrl}/login',
-        data: {
-          'email': emailController.text,
-          'password': passwordController.text
-        },
-      );
-      print(_response.data);
-      _storage.write('token', _response.data['data']['token']);
-
-      final _userData = await _dio.get(
-        '${_apiUrl}/user',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
-        ),
-      );
-      print(_response.data);
-      _storage.write('id', _userData.data['data']['user']['id']);
-      _storage.write('email', _userData.data['data']['user']['email']);
-      _storage.write('name', _userData.data['data']['user']['name']);
-    } on DioException catch (e) {
-      print('${e.response} - ${e.response?.statusCode}');
-    }
-  }
 
     return  Scaffold(
       body: SingleChildScrollView(
@@ -150,7 +119,7 @@ class loginPage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                login();
+                login(emailController.text, passwordController.text);
                 Navigator.pushNamed(context, '/home');
               },
               style: ButtonStyle(
