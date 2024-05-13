@@ -102,6 +102,7 @@ Future<void> getAnggota() async {
       _storage.write('nama_${count}', anggota['nama']);
       _storage.write('alamat_${count}', anggota['alamat']);
       _storage.write('tgl_lahir_${count}', anggota['tgl_lahir']);
+      _storage.write('image_url_${count}', anggota['image_url']);
 
       print(_storage.read('id_${count}'));
       print(_storage.read('nomor_induk_${count}'));
@@ -124,17 +125,12 @@ void getEditAnggotaDetail(context, id) async {
       ),
     );
     _storage.write('anggotaId', _response.data['data']['anggota']['id']);
-    _storage.write('anggota_nomor_induk',
-        _response.data['data']['anggota']['nomor_induk']);
-    _storage.write(
-        'anggota_telepon', _response.data['data']['anggota']['telepon']);
-    _storage.write('anggota_status_aktif',
-        _response.data['data']['anggota']['status_aktif']);
+    _storage.write('anggota_nomor_induk', _response.data['data']['anggota']['nomor_induk']);
+    _storage.write('anggota_telepon', _response.data['data']['anggota']['telepon']);
+    _storage.write('anggota_status_aktif', _response.data['data']['anggota']['status_aktif']);
     _storage.write('anggota_nama', _response.data['data']['anggota']['nama']);
-    _storage.write(
-        'anggota_alamat', _response.data['data']['anggota']['alamat']);
-    _storage.write(
-        'anggota_tgl_lahir', _response.data['data']['anggota']['tgl_lahir']);
+    _storage.write('anggota_alamat', _response.data['data']['anggota']['alamat']);
+    _storage.write('anggota_tgl_lahir', _response.data['data']['anggota']['tgl_lahir']);
     Navigator.pushNamed(context, '/editMember');
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');

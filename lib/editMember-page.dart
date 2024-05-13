@@ -13,7 +13,6 @@ class editMemberPage extends StatefulWidget {
 class _RegisterPageState extends State<editMemberPage> {
   final _storage = GetStorage();
 
-  final nomorIndukController = TextEditingController();
   final namaController = TextEditingController();
   final alamatController = TextEditingController();
   final tglLahirController = TextEditingController();
@@ -24,7 +23,6 @@ class _RegisterPageState extends State<editMemberPage> {
   bool isVisibleConfirm = false;
 
   void dispose() {
-    nomorIndukController.dispose();
     namaController.dispose();
     alamatController.dispose();
     tglLahirController.dispose();
@@ -43,11 +41,6 @@ class _RegisterPageState extends State<editMemberPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              formInput(
-              'Registration Number',
-              namaController,
-              _storage.read('nomor_induk'),
-            ),
             formInput(
               'Name',
               namaController,
