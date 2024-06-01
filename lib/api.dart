@@ -55,13 +55,9 @@ void login(email, password) async {
         headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
       ),
     );
-    print(_response.data);
     _storage.write('id', _userInfo.data['data']['user']['id']);
     _storage.write('email', _userInfo.data['data']['user']['email']);
     _storage.write('name', _userInfo.data['data']['user']['name']);
-    print(_storage.read('id'));
-    print(_storage.read('email'));
-    print(_storage.read('name'));
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
   }
@@ -103,14 +99,9 @@ Future<void> getAnggota() async {
       _storage.write('alamat_${count}', anggota['alamat']);
       _storage.write('tgl_lahir_${count}', anggota['tgl_lahir']);
       _storage.write('image_url_${count}', anggota['image_url']);
-
-      print(_storage.read('id_${count}'));
-      print(_storage.read('nomor_induk_${count}'));
-      print(_storage.read('nama_${count}'));
-      print(_storage.read('alamat_${count}'));
     }
     _storage.write('banyak_anggota', count);
-    print(_storage.read('banyak_anggota'));
+    print('Jumlah Anggota: ${_storage.read('banyak_anggota')}');
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
   }

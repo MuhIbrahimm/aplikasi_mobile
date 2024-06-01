@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     HomePage(),
-    const ProfilePage(),
+    ProfilePage(),
     MemberPage(),
   ];
 
@@ -40,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         selectedItemColor: appColors.mainColor,
+        unselectedItemColor: appColors.secondaryColor,
+        showUnselectedLabels: true,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -56,7 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.supervisor_account),
-            label:'member'
+            label:'members'
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet),
+            label:'savings'
           ),
         ],
       ),

@@ -46,7 +46,7 @@ class _RegisterPageState extends State<createMemberPage> {
             formInput('Registration Number', nomorIndukController),
             formInput('Name', namaController),
             formInput('Address', alamatController),
-            formInput('Date of Birth', ttlController),
+            formInput('Date of Birth', ttlController, isDatePicker: true),
             formInput('Telephone', teleponController),
             
             ElevatedButton(
@@ -85,36 +85,79 @@ class _RegisterPageState extends State<createMemberPage> {
   }
 }
 
-Widget formInput(String label, TextEditingController controller) {
-  return 
-    Column(
-      children: [
-        TextField(
-          controller: controller,
-          style: TextStyles.body,      
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 1.0,
-                color: appColors.mainColor,
-              ),
-              borderRadius: BorderRadius.circular(10),                
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 1.0,
-                color: appColors.mainColor,
-              ),
-              borderRadius: BorderRadius.circular(10),                
-            ),
-            labelText: label,
-            labelStyle: TextStyles.secondaryText,
-            floatingLabelBehavior: FloatingLabelBehavior.auto
-          ),
-        ),
-        const SizedBox(
-              height: 16.0,
-            ),
-      ],
-    );
+Widget formInput(String label, TextEditingController controller, {bool isDatePicker = false}) {
+  return Column(
+    children: [
+      Builder(
+        builder: (BuildContext context) {
+          return isDatePicker
+              ? InkWell(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+
+                    if (pickedDate != null) {
+                      controller.text = "${pickedDate.toLocal()}".split(' ')[0];
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextField(
+                      controller: controller,
+                      style: TextStyles.body,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                            color: appColors.mainColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                            color: appColors.mainColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: label,
+                        labelStyle: TextStyles.secondaryText,
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      ),
+                    ),
+                  ),
+                )
+              : TextField(
+                  controller: controller,
+                  style: TextStyles.body,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: appColors.mainColor,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: appColors.mainColor,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelText: label,
+                    labelStyle: TextStyles.secondaryText,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  ),
+                );
+        },
+      ),
+      const SizedBox(
+        height: 16.0,
+      ),
+    ],
+  );
 }

@@ -7,20 +7,28 @@ class editMemberPage extends StatefulWidget {
   const editMemberPage({super.key});
 
   @override
-  State<editMemberPage> createState() => _RegisterPageState();
+  State<editMemberPage> createState() => _editMemberPageState();
 }
 
-class _RegisterPageState extends State<editMemberPage> {
+class _editMemberPageState extends State<editMemberPage> {
   final _storage = GetStorage();
 
   final namaController = TextEditingController();
   final alamatController = TextEditingController();
   final tglLahirController = TextEditingController();
   final teleponController = TextEditingController();
-  int status_aktif = 1;
+  int statusAktif = 1;
 
-  bool isVisible = false;
-  bool isVisibleConfirm = false;
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the controllers with values from storage
+    namaController.text = _storage.read('anggota_nama') ?? '';
+    alamatController.text = _storage.read('anggota_alamat') ?? '';
+    tglLahirController.text = _storage.read('anggota_tgl_lahir') ?? '';
+    teleponController.text = _storage.read('anggota_telepon') ?? '';
+    statusAktif = _storage.read('anggota_status_aktif') ?? 1;
+  }
 
   void dispose() {
     namaController.dispose();
@@ -37,10 +45,10 @@ class _RegisterPageState extends State<editMemberPage> {
         title: Text('Edit Member', style: TextStyles.h1),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             formInput(
               'Name',
               namaController,
@@ -54,14 +62,14 @@ class _RegisterPageState extends State<editMemberPage> {
             formInput(
               'Date of Birth',
               tglLahirController,
-                _storage.read('anggota_tgl_lahir')
+              _storage.read('anggota_tgl_lahir'),
+              isDatePicker: true,
             ),
             formInput(
-              'Telephone', 
+              'Telephone',
               teleponController,
-                _storage.read('anggota_telepon')
+              _storage.read('anggota_telepon'),
             ),
-
             Text(
               'Status Aktif',
               style: TextStyles.body,
@@ -71,11 +79,11 @@ class _RegisterPageState extends State<editMemberPage> {
               title: Text('Aktif', style: TextStyles.body),
               leading: Radio<int>(
                 value: 1,
-                groupValue: status_aktif,
+                groupValue: statusAktif,
                 onChanged: (int? value) {
                   if (value != null) {
                     setState(() {
-                      status_aktif = value;
+                      statusAktif = value;
                     });
                   }
                 },
@@ -85,33 +93,31 @@ class _RegisterPageState extends State<editMemberPage> {
               title: Text('Nonaktif', style: TextStyles.body),
               leading: Radio<int>(
                 value: 0,
-                groupValue: status_aktif,
+                groupValue: statusAktif,
                 onChanged: (int? value) {
                   if (value != null) {
                     setState(() {
-                      status_aktif = value;
+                      statusAktif = value;
                     });
                   }
                 },
               ),
             ),
-
             const SizedBox(
               height: 16.0,
             ),
-
             ElevatedButton(
               onPressed: () {
                 editAnggota(
-                    context,
-                    _storage.read('anggotaId'),
-                    _storage.read('anggota_nomor_induk'),
-                    teleponController.text,
-                    status_aktif,
-                    namaController.text,
-                    alamatController.text,
-                    tglLahirController.text
-                    );
+                  context,
+                  _storage.read('anggotaId'),
+                  _storage.read('anggota_nomor_induk'),
+                  teleponController.text,
+                  statusAktif,
+                  namaController.text,
+                  alamatController.text,
+                  tglLahirController.text,
+                );
                 Navigator.pushNamed(context, '/home');
               },
               style: ButtonStyle(
@@ -129,39 +135,85 @@ class _RegisterPageState extends State<editMemberPage> {
                   style: TextStyles.h2.copyWith(color: Colors.white),
                 ),
               ),
-            )
-          ]
-        )
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget formInput(String label, TextEditingController controller, data) {
-  controller.text = data;
+Widget formInput(String label, TextEditingController controller, String initialValue, {bool isDatePicker = false}) {
+  controller.text = initialValue;
+
   return Column(
     children: [
-      TextField(
-        controller: controller,
-        style: TextStyles.body,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 1.0,
-                color: appColors.mainColor,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                width: 1.0,
-                color: appColors.mainColor,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            labelText: label,
-            labelStyle: TextStyles.secondaryText,
-            floatingLabelBehavior: FloatingLabelBehavior.auto),
+      Builder(
+        builder: (BuildContext context) {
+          return isDatePicker
+              ? InkWell(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+
+                    if (pickedDate != null) {
+                      controller.text = "${pickedDate.toLocal()}".split(' ')[0]; // Format the date as needed
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextField(
+                      controller: controller,
+                      style: TextStyles.body,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                            color: appColors.mainColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                            color: appColors.mainColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: label,
+                        labelStyle: TextStyles.secondaryText,
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      ),
+                    ),
+                  ),
+                )
+              : TextField(
+                  controller: controller,
+                  style: TextStyles.body,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: appColors.mainColor,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                        color: appColors.mainColor,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelText: label,
+                    labelStyle: TextStyles.secondaryText,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  ),
+                );
+        },
       ),
       const SizedBox(
         height: 16.0,
