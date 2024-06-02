@@ -2,7 +2,7 @@ import 'package:aplikasi_mobile/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:aplikasi_mobile/api.dart';
-import 'package:aplikasi_mobile/memberDetail-page.dart';
+// import 'package:aplikasi_mobile/memberDetail-page.dart';
 
 final _storage = GetStorage();
 
@@ -20,7 +20,7 @@ class MemberPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            int banyakAnggota = _storage.read('banyak_anggota') ?? 0;
+            int banyakAnggota = _storage.read('banyak_anggota');
             return Stack(
               children: [
                 ListView.separated(
@@ -31,12 +31,7 @@ class MemberPage extends StatelessWidget {
                     int anggotaIndex = index + 1;
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MemberDetailPage(memberIndex: anggotaIndex),
-                          ),
-                        );
+                        getAnggotaDetail(context, _storage.read('id_${index + 1}'));
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -50,7 +45,7 @@ class MemberPage extends StatelessWidget {
                             color: Colors.white,
                           ),
                           title: Text(
-                            _storage.read('nama_$anggotaIndex') ?? 'Unknown',
+                            _storage.read('nama_$anggotaIndex'),
                             style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                           subtitle: Text(

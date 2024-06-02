@@ -1,12 +1,10 @@
-import 'package:aplikasi_mobile/balance-page.dart';
+import 'package:aplikasi_mobile/addTrx.dart';
 import 'package:aplikasi_mobile/createMember-page.dart';
 import 'package:aplikasi_mobile/editMember-page.dart';
 import 'package:aplikasi_mobile/home-screen.dart';
 import 'package:aplikasi_mobile/login-page.dart';
-import 'package:aplikasi_mobile/member-page.dart';
-import 'package:aplikasi_mobile/profile-page.dart';
+import 'package:aplikasi_mobile/memberDetail-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
-import 'package:aplikasi_mobile/saving-page.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +24,10 @@ class MyApp extends StatelessWidget {
         '/' : (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomeScreen(),
-        // '/profile': (context) => const ProfilePage(),
-        // '/member': (context) => MemberPage(),
         '/editMember': (context) => const EditMemberPage(),
         '/createMember': (context) => const CreateMemberPage(),
-        '/saving': (context) => SavingPage(),
-        '/balance': (context) => BalancePage(),
+        '/detailMember': (context) => MemberDetailPage(),
+        '/addTrx': (context) => const AddTrxPage(),
       },
       initialRoute: '/',
     );

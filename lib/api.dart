@@ -107,6 +107,32 @@ Future<void> getAnggota() async {
   }
 }
 
+void getAnggotaDetail(context, id) async {
+  try {
+    final _response = await _dio.get(
+      '${_apiUrl}/anggota/${id}',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    _storage.write('anggotaId', _response.data['data']['anggota']['id']);
+    _storage.write('anggota_nomor_induk',
+        _response.data['data']['anggota']['nomor_induk']);
+    _storage.write(
+        'anggota_telepon', _response.data['data']['anggota']['telepon']);
+    _storage.write('anggota_status_aktif',
+        _response.data['data']['anggota']['status_aktif']);
+    _storage.write('anggota_nama', _response.data['data']['anggota']['nama']);
+    _storage.write(
+        'anggota_alamat', _response.data['data']['anggota']['alamat']);
+    _storage.write(
+        'anggota_tgl_lahir', _response.data['data']['anggota']['tgl_lahir']);
+    Navigator.pushNamed(context, '/detailMember');
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
+  }
+}
+
 void getEditAnggotaDetail(context, id) async {
   try {
     final _response = await _dio.get(
@@ -153,6 +179,7 @@ void createAnggota(context, nomor_induk, telepon, status_aktif, nama, alamat,
       ),
     );
     print(_response.data);
+    Navigator.pushReplacementNamed(context, '/home');
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
   }
@@ -198,7 +225,73 @@ void deleteAnggota(context, id) async {
       ),
     );
     print(_response.data);
+    Navigator.pushReplacementNamed(context, '/home');
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
+  }
+}
+
+void getSaldo(id) async {
+  try {
+    final _response = await _dio.get(
+      '${_apiUrl}/saldo/${id}',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    _storage.write('saldo_${id}', _response.data['data']['saldo']);
+    print(_storage.read('saldo_${id}'));
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
+  }
+}
+
+void iterationSaldo() {
+  for (var i = 0; i <= _storage.read('banyak_anggota'); i++) {
+    getSaldo(_storage.read('id_${i}'));
+  }
+}
+
+Future<void> getRiwayat(id) async {
+  int count = 0;
+  try {
+    final _response = await _dio.get(
+      '${_apiUrl}/tabungan/${id}',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    for (var tabungan in _response.data['data']['tabungan']) {
+      count += 1;
+
+      _storage.write('id_${count}', tabungan['id']);
+      _storage.write('trx_tanggal_${count}', tabungan['trx_tanggal']);
+      _storage.write('trx_id_${count}', tabungan['trx_id']);
+      _storage.write('trx_nominal_${count}', tabungan['trx_nominal']);
+    }
+    _storage.write('banyak_riwayat', count);
+    print('Jumlah Riwayat Transaksi:  ${_storage.read('banyak_riwayat')}');
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
+  }
+}
+
+void addTabungan(
+    String id, String trx_id, String trx_nominal, BuildContext context) async {
+  try {
+    final _response = await _dio.post(
+      '${_apiUrl}/tabungan',
+      data: {'anggota_id': id, 'trx_id': trx_id, 'trx_nominal': trx_nominal},
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    print(_response);
+    _storage.remove('saldo_${id}');
+    getSaldo(id);
+    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, "/home");
+  } on DioException catch (e) {
+    print('error: ${e.response} - ${e.response?.statusCode}');
   }
 }
