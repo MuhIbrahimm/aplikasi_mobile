@@ -3,14 +3,14 @@ import 'package:aplikasi_mobile/style.dart';
 import 'package:aplikasi_mobile/api.dart';
 import 'package:get_storage/get_storage.dart';
 
-class editMemberPage extends StatefulWidget {
-  const editMemberPage({super.key});
+class EditMemberPage extends StatefulWidget {
+  const EditMemberPage({super.key});
 
   @override
-  State<editMemberPage> createState() => _editMemberPageState();
+  State<EditMemberPage> createState() => _EditMemberPageState();
 }
 
-class _editMemberPageState extends State<editMemberPage> {
+class _EditMemberPageState extends State<EditMemberPage> {
   final _storage = GetStorage();
 
   final namaController = TextEditingController();
@@ -22,7 +22,6 @@ class _editMemberPageState extends State<editMemberPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize the controllers with values from storage
     namaController.text = _storage.read('anggota_nama') ?? '';
     alamatController.text = _storage.read('anggota_alamat') ?? '';
     tglLahirController.text = _storage.read('anggota_tgl_lahir') ?? '';
@@ -118,7 +117,7 @@ class _editMemberPageState extends State<editMemberPage> {
                   alamatController.text,
                   tglLahirController.text,
                 );
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushReplacementNamed(context, '/home');
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(appColors.mainColor),
@@ -161,7 +160,7 @@ Widget formInput(String label, TextEditingController controller, String initialV
                     );
 
                     if (pickedDate != null) {
-                      controller.text = "${pickedDate.toLocal()}".split(' ')[0]; // Format the date as needed
+                      controller.text = "${pickedDate.toLocal()}".split(' ')[0];
                     }
                   },
                   child: AbsorbPointer(

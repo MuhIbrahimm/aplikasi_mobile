@@ -3,8 +3,8 @@ import 'package:aplikasi_mobile/style.dart';
 import 'package:aplikasi_mobile/api.dart';
 
 
-class  registerPage extends StatelessWidget {
-  const registerPage({super.key});
+class  RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {

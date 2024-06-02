@@ -3,6 +3,7 @@ import 'package:aplikasi_mobile/createMember-page.dart';
 import 'package:aplikasi_mobile/editMember-page.dart';
 import 'package:aplikasi_mobile/home-screen.dart';
 import 'package:aplikasi_mobile/login-page.dart';
+import 'package:aplikasi_mobile/member-page.dart';
 import 'package:aplikasi_mobile/profile-page.dart';
 import 'package:aplikasi_mobile/register-page.dart';
 import 'package:aplikasi_mobile/saving-page.dart';
@@ -22,12 +23,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/' : (context) => const loginPage(),
-        '/register': (context) => const registerPage(),
+        '/' : (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomeScreen(),
-        '/profile': (context) => const ProfilePage(),
-        '/editMember': (context) => const editMemberPage(),
-        '/createMember': (context) => const createMemberPage(),
+        // '/profile': (context) => const ProfilePage(),
+        // '/member': (context) => MemberPage(),
+        '/editMember': (context) => const EditMemberPage(),
+        '/createMember': (context) => const CreateMemberPage(),
         '/saving': (context) => SavingPage(),
         '/balance': (context) => BalancePage(),
       },

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
 import 'package:aplikasi_mobile/api.dart';
 
-class createMemberPage extends StatefulWidget {
-  const createMemberPage({super.key});
+class CreateMemberPage extends StatefulWidget {
+  const CreateMemberPage({super.key});
 
   @override
-  State<createMemberPage> createState() => _RegisterPageState();
+  State<CreateMemberPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<createMemberPage> {
+class _RegisterPageState extends State<CreateMemberPage> {
   final nomorIndukController = TextEditingController();
   final namaController = TextEditingController();
   final alamatController = TextEditingController();

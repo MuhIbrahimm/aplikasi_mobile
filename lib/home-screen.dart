@@ -16,8 +16,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     HomePage(),
-    ProfilePage(),
+    const ProfilePage(),
     MemberPage(),
+  ];
+
+  final List<String> _titles = [
+    'Home',
+    'Profile',
+    'Members',
   ];
 
   @override
@@ -28,13 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 10.0,
         backgroundColor: appColors.mainColor,
         leading: Image.asset('assets/images/logo-white.png'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-            color: Colors.white,
-          ),
-        ],
+        title: Text(_titles[_currentIndex],
+                style: TextStyles.h2.copyWith(color: Colors.white,)
+              ),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -59,10 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.supervisor_account),
             label:'members'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label:'savings'
           ),
         ],
       ),
