@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:aplikasi_mobile/api.dart';
 import 'package:aplikasi_mobile/style.dart';
+import 'package:intl/intl.dart';
 
 class MemberDetailPage extends StatefulWidget {
   const MemberDetailPage({Key? key}) : super(key: key);
@@ -29,6 +30,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       'statusAktif': _storage.read('anggota_status_aktif') ?? 1,
       'saldo': _storage.read('saldo_${_storage.read('anggotaId')}') ?? 0,
     };
+  }
+
+  String formatCurrency(int amount) {
+    final formatter = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+    return formatter.format(amount);
   }
 
   @override
@@ -111,7 +117,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Balance:', style: TextStyles.h2.copyWith(color: Colors.white)),
-                            Text('Rp ${memberData['saldo']}', style: TextStyles.h2.copyWith(color: Colors.white)),
+                            Text(formatCurrency(memberData['saldo']), style: TextStyles.h2.copyWith(color: Colors.white)),
                           ],
                         ),
                       ),
@@ -165,15 +171,15 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                               // Menentukan ikon dan warna ikon berdasarkan jenis transaksi
                               switch (_storage.read('trx_id_${index + 1}')) {
                                 case 1:
-                                  iconData = Icons.account_balance_wallet;
+                                  iconData = Icons.attach_money;
                                   cardColor = appColors.mainColor;
                                   break;
                                 case 2:
-                                  iconData = Icons.arrow_circle_up;
+                                  iconData = Icons.add;
                                   cardColor = Colors.green;
                                   break;
                                 case 3:
-                                  iconData = Icons.arrow_circle_down;
+                                  iconData = Icons.remove;
                                   cardColor = Colors.red;
                                   break;
                                 default:
@@ -202,7 +208,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                                               ? Text('Penarikan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
                                               : Text('Bunga Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
                                   subtitle: Text(
-                                    'Rp ${_storage.read('trx_nominal_${index + 1}')}',
+                                    formatCurrency(_storage.read('trx_nominal_${index + 1}')),
                                     style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
                                   ),
                                   trailing: Column(
