@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:aplikasi_mobile/api.dart';
 import 'package:aplikasi_mobile/style.dart';
@@ -79,7 +80,9 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                           TableRow(
                             children: [
                               Text('Address', style: TextStyles.body.copyWith(color: Colors.white)),
-                              Text(': ${memberData['address']}', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['address']}', style: TextStyles.body.copyWith(color: Colors.white),
+                              maxLines: 2, overflow: TextOverflow.ellipsis,
+                              ),
                             ],
                           ),
                           TableRow(
@@ -213,85 +216,86 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   const SizedBox(
                     height: 8.0
                   ),
-                  Container(
-                    height: 375,
-                    child: FutureBuilder(
-                      future: getRiwayat(_storage.read('anggotaId')),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
-                        } else {
-                          int index = _storage.read('banyak_riwayat');
-                          return ListView.builder(
-                            itemCount: index,
-                            itemBuilder: (context, index) {
-                              Color cardColor;
-                              IconData iconData;
-                                
-                              // Menentukan ikon dan warna ikon berdasarkan jenis transaksi
-                              switch (_storage.read('trx_id_${index + 1}')) {
-                                case 1:
-                                  iconData = Icons.attach_money;
-                                  cardColor = appColors.mainColor;
-                                  break;
-                                case 2:
-                                  iconData = Icons.add;
-                                  cardColor = Colors.green;
-                                  break;
-                                case 3:
-                                  iconData = Icons.remove;
-                                  cardColor = Colors.red;
-                                  break;
-                                default:
-                                  iconData = Icons.attach_money;
-                                  cardColor = Colors.yellow;
-                                  break;
-                              }
-                                
-                              String dateTime = _storage.read('trx_tanggal_${index + 1}');
-                              List<String> dateTimeParts = dateTime.split(' ');
-                              String date = dateTimeParts[0];
-                              String time = dateTimeParts.length > 1 ? dateTimeParts[1] : '';
-                                
-                              return Card(
-                                color: cardColor,
-                                child: ListTile(
-                                  leading: Icon(
-                                    iconData,
-                                    color: Colors.white,
+                  Expanded(
+                    child: Container(
+                      child: FutureBuilder(
+                        future: getRiwayat(_storage.read('anggotaId')),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            int index = _storage.read('banyak_riwayat');
+                            return ListView.builder(
+                              itemCount: index,
+                              itemBuilder: (context, index) {
+                                Color cardColor;
+                                IconData iconData;
+                                  
+                                // Menentukan ikon dan warna ikon berdasarkan jenis transaksi
+                                switch (_storage.read('trx_id_${index + 1}')) {
+                                  case 1:
+                                    iconData = Icons.attach_money;
+                                    cardColor = appColors.mainColor;
+                                    break;
+                                  case 2:
+                                    iconData = Icons.add;
+                                    cardColor = Colors.green;
+                                    break;
+                                  case 3:
+                                    iconData = Icons.remove;
+                                    cardColor = Colors.red;
+                                    break;
+                                  default:
+                                    iconData = Icons.attach_money;
+                                    cardColor = Colors.yellow;
+                                    break;
+                                }
+                                  
+                                String dateTime = _storage.read('trx_tanggal_${index + 1}');
+                                List<String> dateTimeParts = dateTime.split(' ');
+                                String date = dateTimeParts[0];
+                                String time = dateTimeParts.length > 1 ? dateTimeParts[1] : '';
+                                  
+                                return Card(
+                                  color: cardColor,
+                                  child: ListTile(
+                                    leading: Icon(
+                                      iconData,
+                                      color: Colors.white,
+                                    ),
+                                    title: _storage.read('trx_id_${index + 1}') == 1
+                                        ? Text('Saldo Awal', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
+                                        : _storage.read('trx_id_${index + 1}') == 2
+                                            ? Text('Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
+                                            : _storage.read('trx_id_${index + 1}') == 3
+                                                ? Text('Penarikan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
+                                                : Text('Bunga Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                                    subtitle: Text(
+                                      formatCurrency(_storage.read('trx_nominal_${index + 1}')),
+                                      style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
+                                    ),
+                                    trailing: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          date,
+                                          style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
+                                        ),
+                                        Text(
+                                          time,
+                                          style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  title: _storage.read('trx_id_${index + 1}') == 1
-                                      ? Text('Saldo Awal', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
-                                      : _storage.read('trx_id_${index + 1}') == 2
-                                          ? Text('Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
-                                          : _storage.read('trx_id_${index + 1}') == 3
-                                              ? Text('Penarikan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
-                                              : Text('Bunga Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-                                  subtitle: Text(
-                                    formatCurrency(_storage.read('trx_nominal_${index + 1}')),
-                                    style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
-                                  ),
-                                  trailing: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        date,
-                                        style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
-                                      ),
-                                      Text(
-                                        time,
-                                        style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      },
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ],
