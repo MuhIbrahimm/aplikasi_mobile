@@ -55,103 +55,167 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final memberData = snapshot.data!;
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: appColors.mainColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Table(
-                          defaultVerticalAlignment: TableCellVerticalAlignment.top,
-                          children: [
-                            TableRow(
-                              children: [
-                                Text('Name', style: TextStyles.body.copyWith(color: Colors.white)),
-                                Text(': ${memberData['name']}', style: TextStyles.body.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Text('Address', style: TextStyles.body.copyWith(color: Colors.white)),
-                                Text(': ${memberData['address']}', style: TextStyles.body.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Text('Date of Birth', style: TextStyles.body.copyWith(color: Colors.white)),
-                                Text(': ${memberData['birthDate']}', style: TextStyles.body.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Text('Telephone', style: TextStyles.body.copyWith(color: Colors.white)),
-                                Text(': ${memberData['telephone']}', style: TextStyles.body.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Text('Status Aktif', style: TextStyles.body.copyWith(color: Colors.white)),
-                                Text(': ${memberData['statusAktif'] == 1 ? 'Active' : 'Non Active'}', style: TextStyles.body.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                          ],
-                        ),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: appColors.mainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Table(
+                        defaultVerticalAlignment: TableCellVerticalAlignment.top,
+                        children: [
+                          TableRow(
+                            children: [
+                              Text('Name', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['name']}', style: TextStyles.body.copyWith(color: Colors.white)),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Address', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['address']}', style: TextStyles.body.copyWith(color: Colors.white)),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Date of Birth', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['birthDate']}', style: TextStyles.body.copyWith(color: Colors.white)),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Telephone', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['telephone']}', style: TextStyles.body.copyWith(color: Colors.white)),
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Status Aktif', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['statusAktif'] == 1 ? 'Active' : 'Non Active'}', style: TextStyles.body.copyWith(color: Colors.white)),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: appColors.mainColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Balance:', style: TextStyles.h2.copyWith(color: Colors.white)),
-                            Text(formatCurrency(memberData['saldo']), style: TextStyles.h2.copyWith(color: Colors.white)),
-                          ],
-                        ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: appColors.mainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Balance:', style: TextStyles.h2.copyWith(color: Colors.white)),
+                          Text(formatCurrency(memberData['saldo']), style: TextStyles.h2.copyWith(color: Colors.white)),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/addTrx');
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(appColors.mainColor),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  const SizedBox(
+                    height: 16
+                  ),
+            
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          getEditAnggotaDetail(context, _storage.read('anggotaId'));
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(appColors.mainColor),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Edit Anggota',
+                            style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text(
-                          'Add Transaction',
-                          style: TextStyles.body.copyWith(color: Colors.white),
+            
+                      const SizedBox(
+                        width: 16
+                      ),
+            
+                      
+                      ElevatedButton(
+                        onPressed: () {
+                          deleteAnggota(context, _storage.read('anggotaId'));
+                      
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.red),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Hapus Anggota',
+                            style: TextStyles.body.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(
+                    height: 16
+                  ),
+                  
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/addTrx');
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(appColors.mainColor),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32.0),
-                    Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Transaction History',
-                        style: TextStyles.h1,
+                        'Add Transaction',
+                        style: TextStyles.body.copyWith(color: Colors.white),
                       ),
                     ),
-                    const SizedBox(height: 8.0),
-                    FutureBuilder(
+                  ),
+                  const SizedBox(
+                    height: 32.0
+                  ),
+                  Center(
+                    child: Text(
+                      'Transaction History',
+                      style: TextStyles.h1,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8.0
+                  ),
+                  Container(
+                    height: 375,
+                    child: FutureBuilder(
                       future: getRiwayat(_storage.read('anggotaId')),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -161,13 +225,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         } else {
                           int index = _storage.read('banyak_riwayat');
                           return ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
                             itemCount: index,
                             itemBuilder: (context, index) {
                               Color cardColor;
                               IconData iconData;
-
+                                
                               // Menentukan ikon dan warna ikon berdasarkan jenis transaksi
                               switch (_storage.read('trx_id_${index + 1}')) {
                                 case 1:
@@ -187,12 +249,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                                   cardColor = Colors.yellow;
                                   break;
                               }
-
+                                
                               String dateTime = _storage.read('trx_tanggal_${index + 1}');
                               List<String> dateTimeParts = dateTime.split(' ');
                               String date = dateTimeParts[0];
                               String time = dateTimeParts.length > 1 ? dateTimeParts[1] : '';
-
+                                
                               return Card(
                                 color: cardColor,
                                 child: ListTile(
@@ -231,8 +293,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         }
                       },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           }
