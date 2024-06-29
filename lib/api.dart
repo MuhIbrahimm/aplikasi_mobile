@@ -38,7 +38,7 @@ void register(name, email, password) async {
   
 }
 
-void login(email, password) async {
+Future<void> login(String email, String password) async {
   try {
     final _response = await _dio.post(
       '${_apiUrl}/login',
@@ -60,6 +60,7 @@ void login(email, password) async {
     _storage.write('name', _userInfo.data['data']['user']['name']);
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
+    throw e;
   }
 }
 
@@ -116,17 +117,12 @@ void getAnggotaDetail(context, id) async {
       ),
     );
     _storage.write('anggotaId', _response.data['data']['anggota']['id']);
-    _storage.write('anggota_nomor_induk',
-        _response.data['data']['anggota']['nomor_induk']);
-    _storage.write(
-        'anggota_telepon', _response.data['data']['anggota']['telepon']);
-    _storage.write('anggota_status_aktif',
-        _response.data['data']['anggota']['status_aktif']);
+    _storage.write('anggota_nomor_induk', _response.data['data']['anggota']['nomor_induk']);
+    _storage.write('anggota_telepon', _response.data['data']['anggota']['telepon']);
+    _storage.write('anggota_status_aktif', _response.data['data']['anggota']['status_aktif']);
     _storage.write('anggota_nama', _response.data['data']['anggota']['nama']);
-    _storage.write(
-        'anggota_alamat', _response.data['data']['anggota']['alamat']);
-    _storage.write(
-        'anggota_tgl_lahir', _response.data['data']['anggota']['tgl_lahir']);
+    _storage.write('anggota_alamat', _response.data['data']['anggota']['alamat']);
+    _storage.write('anggota_tgl_lahir', _response.data['data']['anggota']['tgl_lahir']);
     Navigator.pushNamed(context, '/detailMember');
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
@@ -231,7 +227,7 @@ void deleteAnggota(context, id) async {
   }
 }
 
-void getSaldo(id) async {
+Future<void> getSaldo(id) async {
   try {
     final _response = await _dio.get(
       '${_apiUrl}/saldo/${id}',
@@ -241,16 +237,12 @@ void getSaldo(id) async {
     );
     _storage.write('saldo_${id}', _response.data['data']['saldo']);
     print(_storage.read('saldo_${id}'));
-  } on DioException catch (e) {
+  } on DioError catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
+    throw e; // Re-throw the error to handle it elsewhere if needed
   }
 }
 
-void iterationSaldo() {
-  for (var i = 0; i <= _storage.read('banyak_anggota'); i++) {
-    getSaldo(_storage.read('id_${i}'));
-  }
-}
 
 Future<void> getRiwayat(id) async {
   int count = 0;

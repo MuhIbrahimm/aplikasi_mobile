@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:aplikasi_mobile/api.dart';
 import 'package:aplikasi_mobile/style.dart';
@@ -19,17 +18,25 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   @override
   void initState() {
     super.initState();
+    getSaldo(_storage.read('anggotaId'));
     memberFuture = getMemberDetails();
   }
 
   Future<Map<String, dynamic>> getMemberDetails() async {
+    var saldo = _storage.read('saldo_${_storage.read('anggotaId')}');
+    
+    if (saldo == null) {
+      await getSaldo(_storage.read('anggotaId'));
+      saldo = _storage.read('saldo_${_storage.read('anggotaId')}');
+    }
+
     return {
       'name': _storage.read('anggota_nama') ?? '',
       'address': _storage.read('anggota_alamat') ?? '',
       'birthDate': _storage.read('anggota_tgl_lahir') ?? '',
       'telephone': _storage.read('anggota_telepon') ?? '',
       'statusAktif': _storage.read('anggota_status_aktif') ?? 1,
-      'saldo': _storage.read('saldo_${_storage.read('anggotaId')}') ?? 0,
+      'saldo': saldo ?? 0,
     };
   }
 
@@ -45,6 +52,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         title: Text(
           'Member Details',
           style: TextStyles.h1,
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+          }
         ),
       ),
       body: FutureBuilder<Map<String, dynamic>>(

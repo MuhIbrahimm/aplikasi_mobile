@@ -15,15 +15,15 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
+    MemberPage(),
     HomePage(),
     const ProfilePage(),
-    MemberPage(),
   ];
 
   final List<String> _titles = [
-    'Home',
-    'Profile',
     'Members',
+    'Interest',
+    'Profile',
   ];
 
   @override
@@ -51,16 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.supervisor_account),
+            label: 'Member',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.money),
+            label: 'Bunga',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.supervisor_account),
-            label:'members'
+            label:'Profile'
           ),
         ],
       ),
