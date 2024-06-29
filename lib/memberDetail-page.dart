@@ -158,7 +158,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: Text(
-                            'Edit Anggota',
+                            'Edit Member',
                             style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                         ),
@@ -185,7 +185,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: Text(
-                            'Hapus Anggota',
+                            'Hapus Member',
                             style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                         ),
