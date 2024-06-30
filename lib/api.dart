@@ -237,12 +237,10 @@ Future<void> getSaldo(id) async {
     );
     _storage.write('saldo_${id}', _response.data['data']['saldo']);
     print(_storage.read('saldo_${id}'));
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
-    throw e; // Re-throw the error to handle it elsewhere if needed
   }
 }
-
 
 Future<void> getRiwayat(id) async {
   int count = 0;
@@ -268,7 +266,7 @@ Future<void> getRiwayat(id) async {
   }
 }
 
-void addTabungan(
+void addTrx(
     String id, String trx_id, String trx_nominal, BuildContext context) async {
   try {
     final _response = await _dio.post(
@@ -286,4 +284,20 @@ void addTabungan(
   } on DioException catch (e) {
     print('error: ${e.response} - ${e.response?.statusCode}');
   }
+}
+
+Future<List<Map<String, dynamic>>> getJenisTrx(BuildContext context) async {
+  List<Map<String, dynamic>> trxType = [];
+  try {
+    final response = await _dio.get(
+      '$_apiUrl/jenistransaksi',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    trxType = List<Map<String, dynamic>>.from(response.data['data']['jenistransaksi']);
+  } on DioException catch (e) {
+    print('error: ${e.response} - ${e.response?.statusCode}');
+  }
+  return trxType;
 }

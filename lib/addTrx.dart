@@ -16,7 +16,14 @@ class _AddTrxPageState extends State<AddTrxPage> {
 
   final _storage = GetStorage();
 
-  int jenis_trx = 1;
+  String? trxId;
+  final _trxType = ValueNotifier<List<Map<String, dynamic>>>([]);
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTrxType();
+  }
 
   @override
   void dispose() {
@@ -25,18 +32,28 @@ class _AddTrxPageState extends State<AddTrxPage> {
     super.dispose();
   }
 
-  void _submitTransaction() {
-    addTabungan(
-      _storage.read('anggotaId').toString(),
-      jenis_trx.toString(),
-      nominalTrxController.text.toString(),
-      context,
-    );
+  Future<void> _fetchTrxType() async {
+    final trxType = await getJenisTrx(context);
+    _trxType.value = trxType;
+  }
 
-    nominalTrxController.clear();
-    setState(() {
-      jenis_trx = 1;
-    });
+  void _submitTransaction() {
+    if (trxId != null) {
+      addTrx(
+        _storage.read('anggotaId').toString(),
+        trxId!,
+        nominalTrxController.text.toString(),
+        context,
+      );
+
+      nominalTrxController.clear();
+      setState(() {
+        trxId = null;
+      });
+    } else {
+      // Handle error if trxId is null
+      print("Error: Jenis transaksi belum dipilih");
+    }
   }
 
   @override
@@ -69,45 +86,41 @@ class _AddTrxPageState extends State<AddTrxPage> {
                           'Jenis Transaksi',
                           style: TextStyles.body.copyWith(color: Colors.white),
                         ),
-                        DropdownButtonFormField<int>(
-                          value: jenis_trx,
-                          onChanged: (int? newValue) {
-                            setState(() {
-                              jenis_trx = newValue!;
-                            });
+                        ValueListenableBuilder<List<Map<String, dynamic>>>(
+                          valueListenable: _trxType,
+                          builder: (context, trxType, _) {
+                            return DropdownButtonFormField<String>(
+                              value: trxId,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  trxId = newValue;
+                                });
+                              },
+                              items: trxType.map<DropdownMenuItem<String>>(
+                                  (Map<String, dynamic> item) {
+                                return DropdownMenuItem<String>(
+                                  value: item['id'].toString(),
+                                  child: Text(item['trx_name']),
+                                );
+                              }).toList(),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              style:
+                                  TextStyles.body.copyWith(color: Colors.black),
+                              dropdownColor: Colors.white,
+                              hint: const Text('Select Transaction Type'),
+                            );
                           },
-                          items: const [
-                            DropdownMenuItem<int>(
-                              value: 1,
-                              child: Text("Saldo Awal"),
-                            ),
-                            DropdownMenuItem<int>(
-                              value: 2,
-                              child: Text("Simpanan"),
-                            ),
-                            DropdownMenuItem<int>(
-                              value: 3,
-                              child: Text("Penarikan"),
-                            ),
-                            DropdownMenuItem<int>(
-                              value: 4,
-                              child: Text("Bunga Simpanan"),
-                            ),
-                          ],
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          style: TextStyles.body.copyWith(color: Colors.black),
-                          dropdownColor: Colors.white,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Jumlah',
+                          'Ammout',
                           style: TextStyles.body.copyWith(color: Colors.white),
                         ),
                         TextFormField(
@@ -129,32 +142,29 @@ class _AddTrxPageState extends State<AddTrxPage> {
                   ),
                 ),
               ),
-
-              const SizedBox(
-                height: 16.0
-              ),
-
+              const SizedBox(height: 16.0),
               ElevatedButton(
-              onPressed: () {
-                _submitTransaction();
-                Navigator.pushNamed(context, '/home');
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(appColors.mainColor),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                onPressed: () {
+                  _submitTransaction();
+                  Navigator.pushNamed(context, '/home');
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(appColors.mainColor),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Text(
+                    'Confirm Transaction',
+                    style: TextStyles.body.copyWith(color: Colors.white),
                   ),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Text(
-                  'Confirm Transaction',
-                  style: TextStyles.body.copyWith(color: Colors.white),
-                ),
-              ),
-            ),
             ],
           ),
         ),
