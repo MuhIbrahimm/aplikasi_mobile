@@ -112,8 +112,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                           ),
                           TableRow(
                             children: [
-                              Text('Status Aktif', style: TextStyles.body.copyWith(color: Colors.white)),
-                              Text(': ${memberData['statusAktif'] == 1 ? 'Active' : 'Non Active'}', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text('Status', style: TextStyles.body.copyWith(color: Colors.white)),
+                              Text(': ${memberData['statusAktif'] == 1 ? 'Active' : 'Nonactive'}', style: TextStyles.body.copyWith(color: Colors.white)),
                             ],
                           ),
                         ],

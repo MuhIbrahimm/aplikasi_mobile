@@ -49,7 +49,7 @@ class MemberPage extends StatelessWidget {
                             style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                           subtitle: Text(
-                            _storage.read('status_aktif_$anggotaIndex') == 1 ? 'Aktif' : 'Nonaktif',
+                            _storage.read('status_aktif_$anggotaIndex') == 1 ? 'Active' : 'Nonactive',
                             style: TextStyles.body.copyWith(color: Colors.white),
                           ),
                         ),
