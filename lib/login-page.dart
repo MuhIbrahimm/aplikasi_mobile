@@ -12,6 +12,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _obscureText = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   void _showLoadingDialog() {
     showDialog(
@@ -27,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 const CircularProgressIndicator(),
                 const SizedBox(width: 20),
                 Text("Loading...",
-                style: TextStyles.body,),
+                  style: TextStyles.body,),
               ],
             ),
           ),
@@ -41,18 +48,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-  _showLoadingDialog();
-  try {
-    await login(emailController.text, passwordController.text);
-    _hideLoadingDialog();
-    Navigator.pushNamed(context, '/home');
-  } catch (e) {
-    _hideLoadingDialog();
-    // Cetak pesan kesalahan ke konsol
-    print('Login failed: ${e.toString()}');
+    _showLoadingDialog();
+    try {
+      await login(emailController.text, passwordController.text);
+      _hideLoadingDialog();
+      Navigator.pushNamed(context, '/home');
+    } catch (e) {
+      _hideLoadingDialog();
+      // Cetak pesan kesalahan ke konsol
+      print('Login failed: ${e.toString()}');
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,13 +113,15 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 controller: passwordController,
                 style: TextStyles.body,
-                obscureText: true,
+                obscureText: _obscureText,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.visibility),
+                      onPressed: _togglePasswordVisibility,
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
