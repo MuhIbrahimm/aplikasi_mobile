@@ -239,15 +239,18 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                           } else if (snapshot.hasError) {
                             return Center(child: Text('Error: ${snapshot.error}'));
                           } else {
-                            int index = _storage.read('banyak_riwayat');
+                            int itemCount = _storage.read('banyak_riwayat') ?? 0;
+                            if (itemCount == 0) {
+                              return Center(child: Text('No transaction history available.'));
+                            }
                             return ListView.builder(
-                              itemCount: index,
+                              itemCount: itemCount,
                               itemBuilder: (context, index) {
+                                int reversedIndex = itemCount - 1 - index;
                                 Color cardColor;
                                 IconData iconData;
-                                  
-                                // Menentukan ikon dan warna ikon berdasarkan jenis transaksi
-                                switch (_storage.read('trx_id_${index + 1}')) {
+                                
+                                switch (_storage.read('trx_id_$reversedIndex') ?? 0) {
                                   case 1:
                                     iconData = Icons.attach_money;
                                     cardColor = appColors.mainColor;
@@ -265,12 +268,15 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                                     cardColor = Colors.yellow;
                                     break;
                                 }
-                                  
-                                String dateTime = _storage.read('trx_tanggal_${index + 1}');
+
+                                String? dateTime = _storage.read('trx_tanggal_$reversedIndex');
+                                if (dateTime == null) {
+                                  return SizedBox.shrink();
+                                }
                                 List<String> dateTimeParts = dateTime.split(' ');
                                 String date = dateTimeParts[0];
                                 String time = dateTimeParts.length > 1 ? dateTimeParts[1] : '';
-                                  
+
                                 return Card(
                                   color: cardColor,
                                   child: ListTile(
@@ -278,15 +284,15 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                                       iconData,
                                       color: Colors.white,
                                     ),
-                                    title: _storage.read('trx_id_${index + 1}') == 1
+                                    title: _storage.read('trx_id_$reversedIndex') == 1
                                         ? Text('Saldo Awal', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
-                                        : _storage.read('trx_id_${index + 1}') == 2
+                                        : _storage.read('trx_id_$reversedIndex') == 2
                                             ? Text('Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
-                                            : _storage.read('trx_id_${index + 1}') == 3
+                                            : _storage.read('trx_id_$reversedIndex') == 3
                                                 ? Text('Penarikan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold))
                                                 : Text('Bunga Simpanan', style: TextStyles.body.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
                                     subtitle: Text(
-                                      formatCurrency(_storage.read('trx_nominal_${index + 1}')),
+                                      formatCurrency(_storage.read('trx_nominal_$reversedIndex') ?? 0),
                                       style: TextStyles.body.copyWith(color: Colors.white, fontSize: 12),
                                     ),
                                     trailing: Column(
