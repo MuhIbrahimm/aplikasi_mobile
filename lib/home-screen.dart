@@ -1,8 +1,8 @@
-import 'package:aplikasi_mobile/member-page.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_mobile/style.dart';
-import 'package:aplikasi_mobile/home-page.dart';
+import 'package:aplikasi_mobile/member-page.dart';
 import 'package:aplikasi_mobile/profile-page.dart';
+import 'package:aplikasi_mobile/interest-page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,8 +15,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    MemberPage(),
-    HomePage(),
+    const MemberPage(),
+    const InterestPage(),
     const ProfilePage(),
   ];
 

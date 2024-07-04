@@ -301,3 +301,54 @@ Future<List<Map<String, dynamic>>> getJenisTrx(BuildContext context) async {
   }
   return trxType;
 }
+
+Future<void> addBunga(String percent) async {
+  try {
+    final response = await _dio.post(
+      '$_apiUrl/addsettingbunga',
+      data: {'persen': percent, 'isaktif': '1'},
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    print('Response: ${response.data}');
+  } on DioException catch (e) {
+    print('error: ${e.response} - ${e.response?.statusCode}');
+  }
+}
+
+Future<String> getBunga() async {
+    try {
+      final response = await _dio.get(
+        '$_apiUrl/settingbunga',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+        ),
+      );
+      print('Response: ${response.data}');
+      if (response.data['data']['activebunga'] == null) {
+        return "";
+      }
+      return response.data['data']['activebunga']['persen'].toString();
+    } on DioException catch (e) {
+      print('error: ${e.response} - ${e.response?.statusCode}');
+      return "";
+    }
+  }
+
+Future<List<Map<String, dynamic>>> getRiwayatBunga() async {
+  List<Map<String, dynamic>> interests = [];
+  try {
+    final response = await _dio.get(
+      '$_apiUrl/settingbunga',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+      ),
+    );
+    print('Response: ${response.data}');
+    interests = List<Map<String, dynamic>>.from(response.data['data']['settingbungas']);
+  } on DioException catch (e) {
+    print('error: ${e.response} - ${e.response?.statusCode}');
+  }
+  return interests;
+}
