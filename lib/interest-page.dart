@@ -48,18 +48,6 @@ class _InterestPageState extends State<InterestPage> {
     final List<double> interestRates = [2.5, 5.0, 7.5, 10.0, 12.5, 15.0];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Interest Page',
-          style: TextStyles.h1,
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-          }
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Card(
@@ -86,7 +74,7 @@ class _InterestPageState extends State<InterestPage> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else {
-                      final activeInterest = snapshot.data ?? 'N/A';
+                      final activeInterest = snapshot.data ?? 'Unknown';
                       return Text(
                         '$activeInterest%',
                         style: TextStyles.h1.copyWith(color: appColors.mainColor),
@@ -96,11 +84,6 @@ class _InterestPageState extends State<InterestPage> {
                   },
                 ),
                 const SizedBox(height: 32.0),
-                Text(
-                  'Set new interest value',
-                  style: TextStyles.body,
-                ),
-                const SizedBox(height: 8.0),
                 DecimalTextField(
                   hintText: 'Set new interest value',
                   obscureText: false,
